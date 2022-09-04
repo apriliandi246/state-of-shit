@@ -198,6 +198,7 @@ store.subscribeState("userID", (state) => {
   console.log("Subscribe state", state);
 });
 
+// Mutate the state
 store.mutate({ type: "UPDATE-USER-ID" });
 store.mutate({ type: "DOUBLE-TOTAL" });
 store.mutate({ type: "UPDATE-USER-ID" });

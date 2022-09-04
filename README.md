@@ -4,6 +4,6 @@
 
 ### 👨‍💻 About
 
-Just simple state management that I create for my vanilla Javascript project.... 
+Just simple state management (ispired by Redux) that I create for my vanilla Javascript project.... 
 
 <h3 align="right">(⌐■_■)</h3>

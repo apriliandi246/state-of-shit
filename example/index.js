@@ -84,12 +84,14 @@ function createStore(mainState, mutations) {
       throw new Error("Just using plain function for the subscribe state listener");
     }
 
-    const stateNameExist = stateListeners.findIndex((row) => row.indexOf(stateName) !== -1);
+    const stateNameIndex = stateListeners.findIndex((row) => row.indexOf(stateName) !== -1);
 
-    if (stateNameExist === -1) {
-      currentSubscribeState.push(stateName);
-      stateListeners.push([stateName, listener]);
+    if (stateNameIndex !== -1) {
+      throw new Error(`"${stateName}" already registered before in subscribeState`);
     }
+
+    currentSubscribeState.push(stateName);
+    stateListeners.push([stateName, listener]);
 
     return function unsubscribe() {
       const listenerIndex = stateListeners.findIndex((row) => row.indexOf(listener) !== -1);
@@ -191,11 +193,13 @@ const store = createStore(mainState, counterReducer);
 // Run when one of the state changed
 store.subscribeAll(() => {
   console.log("All state", store.getState());
+  console.log("\n");
 });
 
 // Run when "userID" changed (specific state of property)
 store.subscribeState("userID", (state) => {
   console.log("Subscribe state", state);
+  console.log("\n");
 });
 
 // Mutate the state

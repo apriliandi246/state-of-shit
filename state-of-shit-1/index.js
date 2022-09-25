@@ -83,12 +83,14 @@ function createStore(mutations, mainState) {
       throw new Error("Just using plain function for the subscribe state listener");
     }
 
-    const stateNameExist = stateListeners.findIndex((row) => row.indexOf(stateName) !== -1);
+    const stateNameIndex = stateListeners.findIndex((row) => row.indexOf(stateName) !== -1);
 
-    if (stateNameExist === -1) {
-      currentSubscribeState.push(stateName);
-      stateListeners.push([stateName, listener]);
+    if (stateNameIndex !== -1) {
+      throw new Error(`"${stateName}" already registered before in subscribeState`);
     }
+
+    currentSubscribeState.push(stateName);
+    stateListeners.push([stateName, listener]);
 
     return function unsubscribe() {
       const listenerIndex = stateListeners.findIndex((row) => row.indexOf(listener) !== -1);

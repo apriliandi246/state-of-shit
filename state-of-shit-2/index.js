@@ -34,14 +34,17 @@ function createStore(mainState, mutations) {
     const { isStateChange, currentStatesChange } = shallowComparison(mainState, nextState);
 
     if (isStateChange === true) {
+      // replace with the new state
       mainState = nextState;
 
+      // run subscribeAll
       if (listeners.length > 0) {
         for (let index = 0; index < listeners.length; index++) {
           listeners[index]();
         }
       }
 
+      // run subscribeState
       if (stateListeners.length > 0 && currentStatesChange.length !== 0) {
         for (let index = 0; index < currentStatesChange.length; index++) {
           const stateName = currentStatesChange[index];
@@ -84,12 +87,14 @@ function createStore(mainState, mutations) {
       throw new Error("Just using plain function for the subscribe state listener");
     }
 
-    const stateNameExist = stateListeners.findIndex((row) => row.indexOf(stateName) !== -1);
+    const stateNameIndex = stateListeners.findIndex((row) => row.indexOf(stateName) !== -1);
 
-    if (stateNameExist === -1) {
-      currentSubscribeState.push(stateName);
-      stateListeners.push([stateName, listener]);
+    if (stateNameIndex !== -1) {
+      throw new Error(`"${stateName}" already registered before in subscribeState`);
     }
+
+    currentSubscribeState.push(stateName);
+    stateListeners.push([stateName, listener]);
 
     return function unsubscribe() {
       const listenerIndex = stateListeners.findIndex((row) => row.indexOf(listener) !== -1);

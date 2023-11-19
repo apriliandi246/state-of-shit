@@ -1,0 +1,19 @@
+{
+  "name": "state-of-shit",
+  "version": "1.0.0",
+  "description": "Simple state management for my (the author) others personal project",
+  "main": "index.js",
+  "directories": {
+    "example": "example",
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "jest --verbose --coverage"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}

@@ -6,11 +6,11 @@ function store(mainState, modifier) {
 	}
 
 	if (isObjectEmpty(mainState) === true) {
-		throw new Error("Where the hell is your properties of state in you main state object");
+		throw new Error("Where the hell is your properties of state in your main state object");
 	}
 
 	if (typeof modifier !== "function") {
-		throw new Error("Just using plain function for the modifier");
+		throw new Error("Just using plain function for the state modifier");
 	}
 
 	let isMutating = false;
@@ -53,16 +53,16 @@ function store(mainState, modifier) {
 
 	function subscribe(subscriber) {
 		if (typeof subscriber !== "function") {
-			throw new Error("Just using plain function for the subscriber");
+			throw new Error("Just using plain function for the subscribe listener");
 		}
 
 		subscribersQueue.push(subscriber);
 
 		return function unsubscribe() {
-			const subscriberIndex = subscribersQueue.indexOf(subscriber);
+			const subscribeListenerIndex = subscribersQueue.indexOf(subscriber);
 
-			if (subscriberIndex !== -1 && subscriber === subscribersQueue[subscriberIndex]) {
-				subscribersQueue.splice(subscriberIndex, 1);
+			if (subscribeListenerIndex !== -1 && subscriber === subscribersQueue[subscribeListenerIndex]) {
+				subscribersQueue.splice(subscribeListenerIndex, 1);
 			}
 		};
 	}
